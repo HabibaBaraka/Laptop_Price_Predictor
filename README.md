@@ -75,10 +75,6 @@ The model uses laptop specifications such as:
 
 The Flask application provides a user-friendly interface where users can enter laptop specifications and receive an estimated price.
 
-### Screenshots
-
-
-
 ## 📁 Project Structure
 
 ```text
