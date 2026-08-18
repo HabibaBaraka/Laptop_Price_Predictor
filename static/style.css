@@ -1,0 +1,372 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family: 'Segoe UI', sans-serif;
+
+    /* Background */
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0.55)
+        ),
+        url("pexels-craigmdennis-205421.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: white;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    padding: 30px 8%;
+
+    /* الصفحة نفسها لا تعمل Scroll */
+    overflow: hidden;
+}
+
+
+/* =================================
+   MAIN FORM CARD
+================================= */
+
+.container {
+    width: 430px;
+
+    max-height: calc(100vh - 30px);
+
+    padding: 35px;
+
+    background: rgba(20, 20, 20, 0.65);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 22px;
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5);
+
+    animation: fadeIn 0.8s ease;
+
+    /* التعديل الوحيد */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+
+/* =================================
+   FIXED TITLE + SUBTITLE
+================================= */
+
+.page-header {
+    flex-shrink: 0;
+}
+
+
+/* =================================
+   SCROLLABLE FORM
+================================= */
+
+.form-content {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 5px;
+}
+
+
+/* =================================
+   SCROLLBAR
+================================= */
+
+.form-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.form-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+}
+
+.form-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+
+/* =================================
+   MAIN TITLE
+================================= */
+
+.page-header h1 {
+    font-size: 30px;
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+    letter-spacing: 0.5px;
+}
+
+.page-header p {
+    color: #aaa;
+
+    font-size: 14px;
+
+    margin-bottom: 28px;
+}
+
+
+/* =================================
+   SECTIONS
+================================= */
+
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+
+    margin-bottom: 18px;
+
+    color: #f5f5f5;
+}
+
+
+/* =================================
+   FORM GROUP
+================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #ddd;
+}
+
+
+/* =================================
+   INPUTS + SELECTS
+================================= */
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    background: rgba(255, 255, 255, 0.07);
+
+    color: white;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Placeholder */
+
+.form-group input::placeholder {
+    color: #888;
+}
+
+
+/* Select options */
+
+.form-group select option {
+    background: #222;
+    color: white;
+}
+
+
+/* Focus */
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #412D15;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 0 0 3px #0709091f;
+}
+
+
+/* =================================
+   PREDICT BUTTON
+================================= */
+
+.predict-btn {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #8B5E3C;
+
+    color: #111;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.predict-btn:hover {
+    background: #F3E4C9;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px #0a0501;
+}
+
+
+/* =================================
+   PREDICTION RESULT
+================================= */
+
+.result {
+    margin-top: 25px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    background: #412D15;
+
+    border: 1px solid #8B5E3C;
+}
+
+.result h2 {
+    font-size: 14px;
+
+    color: #aaa;
+
+    margin-bottom: 5px;
+}
+
+.result p {
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #e6b831;
+}
+
+
+/* =================================
+   ANIMATION
+================================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        justify-content: center;
+
+        padding: 20px;
+
+        overflow: hidden;
+    }
+
+    .container {
+        width: 100%;
+
+        max-width: 430px;
+
+        max-height: calc(100vh - 40px);
+
+        padding: 25px;
+    }
+}
+
+
+/* =================================
+   SIGNATURE
+================================= */
+
+.signature {
+    position: fixed;
+
+    bottom: 18px;
+    left: 25px;
+
+    color: #808c9299;
+
+    font-size: 13px;
+
+    font-style: italic;
+
+    letter-spacing: 1px;
+}

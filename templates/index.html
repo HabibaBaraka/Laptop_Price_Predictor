@@ -1,0 +1,635 @@
+{% extends "base.html" %}
+
+{% block title %}
+Laptop Price Prediction
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- =========================
+         FIXED TITLE & SUBTITLE
+    ========================== -->
+    <div class="page-header">
+
+        <h1>💴 AI Laptop Price Predictor</h1>
+
+        <p>Enter your laptop specifications to estimate its price.</p>
+
+    </div>
+
+
+    <!-- =========================
+         SCROLLABLE FORM
+    ========================== -->
+    <div class="form-content">
+
+        <form action="{{ url_for('predict') }}" method="POST">
+
+            <!-- =========================
+                 LAPTOP INFORMATION
+            ========================== -->
+            <section class="form-section">
+
+                <h2>Laptop Information</h2>
+
+                <div class="form-group">
+                    <label for="Company">Company</label>
+
+                    <select id="Company" name="Company" required>
+
+                        {% for company in companies %}
+                            <option value="{{ company }}"
+                            {% if request.form.get('Company') == company %}selected{% endif %}>
+                                {{ company }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="TypeName">Laptop Type</label>
+
+                    <select id="TypeName" name="TypeName" required>
+
+                        {% for type in type_names %}
+                            <option value="{{ type }}"
+                            {% if request.form.get('TypeName') == type %}selected{% endif %}>
+                                {{ type }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="Ram">RAM (GB)</label>
+
+                    <input
+                        type="number"
+                        id="Ram"
+                        name="Ram"
+                        min="1"
+                        step="1"
+                        placeholder="8"
+                        value="{{ request.form.get('Ram', '') }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+                    <label for="OpSys">Operating System</label>
+
+                    <select id="OpSys" name="OpSys" required>
+
+                        {% for os in operating_systems %}
+                            <option value="{{ os }}"
+                            {% if request.form.get('OpSys') == os %}selected{% endif %}>
+                                {{ os }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="Weight">Weight (kg)</label>
+
+                    <input
+                        type="number"
+                        id="Weight"
+                        name="Weight"
+                        min="0"
+                        step="0.01"
+                        placeholder="1.37"
+                        value="{{ request.form.get('Weight', '') }}"
+                        required
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 DISPLAY
+            ========================== -->
+            <section class="form-section">
+
+                <h2>Display</h2>
+
+                <div class="form-group">
+
+                    <label for="Inches">
+                        Screen Size (Inches)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="Inches"
+                        name="Inches"
+                        min="1"
+                        step="0.1"
+                        placeholder="13.3"
+                        value="{{ request.form.get('Inches', '') }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="Resolution">
+                        Resolution
+                    </label>
+
+                    <select id="Resolution" name="Resolution" required>
+
+                        <option value="1366x768"
+                        {% if request.form.get('Resolution') == '1366x768' %}selected{% endif %}>
+                            1366 × 768
+                        </option>
+
+                        <option value="1600x900"
+                        {% if request.form.get('Resolution') == '1600x900' %}selected{% endif %}>
+                            1600 × 900
+                        </option>
+
+                        <option value="1920x1080"
+                        {% if request.form.get('Resolution') == '1920x1080' %}selected{% endif %}>
+                            1920 × 1080
+                        </option>
+
+                        <option value="1920x1200"
+                        {% if request.form.get('Resolution') == '1920x1200' %}selected{% endif %}>
+                            1920 × 1200
+                        </option>
+
+                        <option value="2560x1440"
+                        {% if request.form.get('Resolution') == '2560x1440' %}selected{% endif %}>
+                            2560 × 1440
+                        </option>
+
+                        <option value="2560x1600"
+                        {% if request.form.get('Resolution') == '2560x1600' %}selected{% endif %}>
+                            2560 × 1600
+                        </option>
+
+                        <option value="2880x1800"
+                        {% if request.form.get('Resolution') == '2880x1800' %}selected{% endif %}>
+                            2880 × 1800
+                        </option>
+
+                        <option value="3840x2160"
+                        {% if request.form.get('Resolution') == '3840x2160' %}selected{% endif %}>
+                            3840 × 2160
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="IS_Touchscreen">
+                        Touchscreen
+                    </label>
+
+                    <select
+                        id="IS_Touchscreen"
+                        name="IS_Touchscreen"
+                        required
+                    >
+
+                        <option value="0"
+                        {% if request.form.get('IS_Touchscreen') == '0' %}selected{% endif %}>
+                            No
+                        </option>
+
+                        <option value="1"
+                        {% if request.form.get('IS_Touchscreen') == '1' %}selected{% endif %}>
+                            Yes
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="Display_Type">
+                        Display Features
+                    </label>
+
+                    <select
+                        id="Display_Type"
+                        name="Display_Type"
+                        required
+                    >
+
+                        <option value="standard"
+                        {% if request.form.get('Display_Type') == 'standard' %}selected{% endif %}>
+                            Standard
+                        </option>
+
+                        <option value="ips"
+                        {% if request.form.get('Display_Type') == 'ips' %}selected{% endif %}>
+                            IPS
+                        </option>
+
+                        <option value="retina"
+                        {% if request.form.get('Display_Type') == 'retina' %}selected{% endif %}>
+                            Retina
+                        </option>
+
+                        <option value="ips_retina"
+                        {% if request.form.get('Display_Type') == 'ips_retina' %}selected{% endif %}>
+                            IPS + Retina
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 PERFORMANCE
+            ========================== -->
+            <section class="form-section">
+
+                <h2>Performance</h2>
+
+                <div class="form-group">
+
+                    <label for="Processor_Type">
+                        Processor
+                    </label>
+
+                    <select
+                        id="Processor_Type"
+                        name="Processor_Type"
+                        required
+                    >
+
+                        {% for processor in processors %}
+
+                            <option value="{{ processor }}"
+                            {% if request.form.get('Processor_Type') == processor %}selected{% endif %}>
+                                {{ processor }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="Clock_Speed_GHz">
+                        Clock Speed (GHz)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="Clock_Speed_GHz"
+                        name="Clock_Speed_GHz"
+                        min="0"
+                        step="0.1"
+                        placeholder="2.3"
+                        value="{{ request.form.get('Clock_Speed_GHz', '') }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="Gpu_Brand">
+                        GPU Brand
+                    </label>
+
+                    <select
+                        id="Gpu_Brand"
+                        name="Gpu_Brand"
+                        required
+                    >
+
+                        {% for gpu in gpu_brands %}
+
+                            <option value="{{ gpu }}"
+                            {% if request.form.get('Gpu_Brand') == gpu %}selected{% endif %}>
+                                {{ gpu }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 STORAGE
+            ========================== -->
+            <section class="form-section">
+
+                <h2>Storage</h2>
+
+                <div class="form-group">
+
+                    <label for="Storage_Type">
+                        Storage Type
+                    </label>
+
+                    <select
+                        id="Storage_Type"
+                        name="Storage_Type"
+                        required
+                    >
+
+                        <option value="ssd"
+                        {% if request.form.get('Storage_Type') == 'ssd' %}selected{% endif %}>
+                            SSD
+                        </option>
+
+                        <option value="hdd"
+                        {% if request.form.get('Storage_Type') == 'hdd' %}selected{% endif %}>
+                            HDD
+                        </option>
+
+                        <option value="ssd_hdd"
+                        {% if request.form.get('Storage_Type') == 'ssd_hdd' %}selected{% endif %}>
+                            SSD + HDD
+                        </option>
+
+                        <option value="flash"
+                        {% if request.form.get('Storage_Type') == 'flash' %}selected{% endif %}>
+                            Flash Storage
+                        </option>
+
+                        <option value="hybrid"
+                        {% if request.form.get('Storage_Type') == 'hybrid' %}selected{% endif %}>
+                            Hybrid
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SSD -->
+
+                <div
+                    class="form-group storage-field"
+                    id="ssd-field"
+                >
+
+                    <label for="SSD">
+                        SSD Capacity (GB)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="SSD"
+                        name="SSD"
+                        min="0"
+                        step="1"
+                        value="{{ request.form.get('SSD', '0') }}"
+                        placeholder="512"
+                    >
+
+                </div>
+
+
+                <!-- HDD -->
+
+                <div
+                    class="form-group storage-field"
+                    id="hdd-field"
+                    style="display: none;"
+                >
+
+                    <label for="HDD">
+                        HDD Capacity (GB)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="HDD"
+                        name="HDD"
+                        min="0"
+                        step="1"
+                        value="{{ request.form.get('HDD', '0') }}"
+                        placeholder="1000"
+                    >
+
+                </div>
+
+
+                <!-- Flash -->
+
+                <div
+                    class="form-group storage-field"
+                    id="flash-field"
+                    style="display: none;"
+                >
+
+                    <label for="Flash_Storage">
+                        Flash Storage Capacity (GB)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="Flash_Storage"
+                        name="Flash_Storage"
+                        min="0"
+                        step="1"
+                        value="{{ request.form.get('Flash_Storage', '0') }}"
+                        placeholder="128"
+                    >
+
+                </div>
+
+
+                <!-- Hybrid -->
+
+                <div
+                    class="form-group storage-field"
+                    id="hybrid-field"
+                    style="display: none;"
+                >
+
+                    <label for="Hybrid">
+                        Hybrid Storage (GB)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="Hybrid"
+                        name="Hybrid"
+                        min="0"
+                        step="1"
+                        value="{{ request.form.get('Hybrid', '0') }}"
+                        placeholder="1000"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 PREDICT
+            ========================== -->
+
+            <button
+                type="submit"
+                class="predict-btn"
+            >
+                Predict Laptop Price
+            </button>
+
+
+            {% if prediction is defined %}
+
+                <div class="result">
+
+                    <h2>Predicted Price</h2>
+
+                    <p>{{ prediction }}</p>
+
+                </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+    const storageType =
+        document.getElementById("Storage_Type");
+
+    const storageFields = {
+
+        ssd:
+            document.getElementById("ssd-field"),
+
+        hdd:
+            document.getElementById("hdd-field"),
+
+        ssd_hdd: [
+            document.getElementById("ssd-field"),
+            document.getElementById("hdd-field")
+        ],
+
+        flash:
+            document.getElementById("flash-field"),
+
+        hybrid:
+            document.getElementById("hybrid-field")
+
+    };
+
+
+    function hideAllStorageFields() {
+
+        document
+            .querySelectorAll(".storage-field")
+            .forEach(function(field) {
+
+                field.style.display = "none";
+
+            });
+
+    }
+
+
+    function updateStorageFields() {
+
+        hideAllStorageFields();
+
+        const selected =
+            storageType.value;
+
+
+        if (selected === "ssd") {
+
+            storageFields.ssd.style.display = "block";
+
+        }
+
+        else if (selected === "hdd") {
+
+            storageFields.hdd.style.display = "block";
+
+        }
+
+        else if (selected === "ssd_hdd") {
+
+            storageFields.ssd_hdd.forEach(function(field) {
+
+                field.style.display = "block";
+
+            });
+
+        }
+
+        else if (selected === "flash") {
+
+            storageFields.flash.style.display = "block";
+
+        }
+
+        else if (selected === "hybrid") {
+
+            storageFields.hybrid.style.display = "block";
+
+        }
+
+    }
+
+
+    storageType.addEventListener(
+        "change",
+        updateStorageFields
+    );
+
+
+    updateStorageFields();
+
+</script>
+
+
+<footer class="signature">
+
+    Developed by <strong>Habiba Baraka</strong>
+
+</footer>
+
+{% endblock %}
