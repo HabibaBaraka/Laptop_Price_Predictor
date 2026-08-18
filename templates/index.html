@@ -411,7 +411,7 @@ Laptop Price Prediction
                         name="SSD"
                         min="0"
                         step="1"
-                        value="{{ request.form.get('SSD', '0') }}"
+                        value="{{ request.form.get('SSD', '') }}"
                         placeholder="512"
                     >
 
@@ -436,7 +436,7 @@ Laptop Price Prediction
                         name="HDD"
                         min="0"
                         step="1"
-                        value="{{ request.form.get('HDD', '0') }}"
+                        value="{{ request.form.get('HDD', '') }}"
                         placeholder="1000"
                     >
 
@@ -461,7 +461,7 @@ Laptop Price Prediction
                         name="Flash_Storage"
                         min="0"
                         step="1"
-                        value="{{ request.form.get('Flash_Storage', '0') }}"
+                        value="{{ request.form.get('Flash_Storage', '') }}"
                         placeholder="128"
                     >
 
